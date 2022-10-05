@@ -14,6 +14,47 @@ class Application < Sinatra::Base
     also_reload 'lib/artist_repository'
   end
 
+  get '/' do
+    # @name = params[:name]
+
+    # @cohort_name = 'May 2022'
+    # @names = ['Anna', 'Kim', 'Josh', 'David']
+    @password = params[:password]
+
+    return erb(:index)
+  end
+
+  get '/albums/:id' do
+    repo = AlbumRepository.new
+    artist_repo = ArtistRepository.new
+
+    @album = repo.find(params[:id])
+    @artist = artist_repo.find(@album.artist_id)
+
+    return erb(:album)
+  end
+
+  get '/artists/:id' do
+    repo = ArtistRepository.new
+    # artist_repo = ArtistRepository.new
+
+    @artist = repo.find(params[:id])
+    # @artist = artist_repo.find(@album.artist_id)
+
+    return erb(:artist)
+  end
+
+  get '/artists' do
+    repo = ArtistRepository.new
+    # artist_repo = ArtistRepository.new
+
+    @artists = repo.all
+    # @artist = artist_repo.find(@album.artist_id)
+
+    return erb(:artists)
+  end
+  
+
   get '/albums' do
     repo = AlbumRepository.new
     albums = repo.all 
